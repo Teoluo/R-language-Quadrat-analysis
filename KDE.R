@@ -21,17 +21,19 @@ for(rowValue in rowValues){
 }
 SpP=SpatialPolygons(tepList,70:1)
 
-# 从SpatialPolygons强制到类“owin”的对象（观察窗口）
+# from SpatialPolygons  to  “owin”  object (window)
 cityOwin <- as.owin(SpP)
 class(cityOwin)
 
 ## add atrr
 ## import the data (seat.csv)
 mydata1 <- read.table( file = "D:/seat.csv", header = TRUE, sep = "," )
+
 ## select the gpa over 3.3
+goodGap<-3.3
 great<-c()
 for (i in 1:length(mydata1[,2])){
-  if(mydata1[i,2]>=3.3  && !is.na(mydata1[i,3]) ){
+  if(mydata1[i,2]>=goodGap  && !is.na(mydata1[i,3]) ){
     great<-c(great,paste("Sr",mydata1[i,3],sep="") )
   }
 }
@@ -49,23 +51,31 @@ df <- data.frame(gpa=1:70,row.names =name )
 SrDf = SpatialPolygonsDataFrame(SpP,df)
 as(SrDf, "data.frame")
 
-# 从SpatialPointsDataFrame中提取坐标
-
+# SpatialPointsDataFrame to coordinates 
 pts <- coordinates(SrDf)
-
 
 test<-c()
 for( i in great){
   test<-c(test,pts[i,])
 }
 
-ptss<-matrix(data = test, nrow = length(test)/2, ncol = 2)
+rowM<-c()
+colM<-c()
+for( i in 1:length(test)){
+  if(i%%2==1){
+    rowM<-c(rowM,test[i])
+  }else{
+    colM<-c(colM,test[i])
+  }
+}
 
-#创建一个'ppp'（点模式）对象
+ptss<-matrix(data = test, nrow = length(test)/2, ncol = 2,byrow=T)
+
+#vreate a 'ppp' object
 p <- ppp(ptss[,1], ptss[,2], window=cityOwin)
 plot(p)
 
-# 计算核密度  
+# calculate the density
 # bw * adjust
 ds <- density(p, bw ="nrd0",adjust = 1)
 # draw 

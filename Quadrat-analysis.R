@@ -14,7 +14,7 @@ for(rowValue in rowValues){
     ## draw island
     Sr = Polygon(cbind(c(rowValue,rowValue,rowValue+1,rowValue+1,rowValue),c(colValue,colValue+1,colValue+1,colValue,colValue)))
     Srs = Polygons(list(Sr),seatNum)
-    ## cun
+    ## store
     tepList<-c(tepList,Srs)
   }
 }
@@ -25,9 +25,11 @@ SpP=SpatialPolygons(tepList,70:1)
 mydata1 <- read.table( file = "D:/seat.csv", header = TRUE, sep = "," )
 
 ## select the gpa over 3.3
+goodGap<-3.3
+
 great<-c()
 for (i in 1:length(mydata1[,2])){
-  if(mydata1[i,2]>=3.3){
+  if(mydata1[i,2]>=goodGap && !is.na(mydata1[i,3]) ){
     great<-c(great,paste("Sr",mydata1[i,3],sep="") )
   }
 }
@@ -60,18 +62,20 @@ as(SrDf, "data.frame")
 spplot(SrDf)
 
 
-## average
+## select sample and 
 
 df2<-data.frame(row.names <- c(1,2,3,4,5,6),count <- c(4,2,4,2,1,3))
 ## count the yangfang 
 n <- length(df2[,1])
 ## av is the average of the yangfang
 mean <- greatCount/ n 
-
+##
 fcSum <- 0
 for( i in 1:length(df2[,1])){
   fcSum <- fcSum+(df2[1,1]-mean)**2
 }
+## variance
 variance <- fcSum/(n-1)
+## VMR
 VMR <- variance/mean
 VMR
