@@ -20,6 +20,5 @@
 - 处理数据
 - 选取带宽
 - 计算密度
-
-
+ 
 ![img](https://github.com/Teoluo/R-language-Quadrat-analysis-AND-KDE/blob/master/screenshots/KDE.png)
