@@ -21,7 +21,7 @@ for(rowValue in rowValues){
 }
 SpP=SpatialPolygons(tepList,70:1)
 
-# from SpatialPolygons  to  ¡°owin¡±  object (window)
+# from SpatialPolygons  to  Â¡Â°owinÂ¡Â±  object (window)
 cityOwin <- as.owin(SpP)
 class(cityOwin)
 
@@ -57,16 +57,6 @@ pts <- coordinates(SrDf)
 test<-c()
 for( i in great){
   test<-c(test,pts[i,])
-}
-
-rowM<-c()
-colM<-c()
-for( i in 1:length(test)){
-  if(i%%2==1){
-    rowM<-c(rowM,test[i])
-  }else{
-    colM<-c(colM,test[i])
-  }
 }
 
 ptss<-matrix(data = test, nrow = length(test)/2, ncol = 2,byrow=T)
